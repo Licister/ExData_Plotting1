@@ -1,9 +1,9 @@
 # Checks if the text file exists in the current directory. If it doesn't, it is downloaded
 # and extracted.
-
 if (!file.exists("household_power_consumption.txt")){
       message("Downloading data")
-      download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", destfile = "./exdata_data_household_power_consumption.zip")
+      download.file("https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip", 
+                    destfile = "./exdata_data_household_power_consumption.zip")
       unzip("exdata_data_household_power_consumption.zip")
 }
 
@@ -22,7 +22,9 @@ Sys.setlocale("LC_TIME", "C")
 # Checks if the variable has been created, to avoid wasting time writing it again.
 # Reads the desired lines (1st and 2nd of January) from the dataset into R.
 if(!(exists("house"))){ 
-      house <- read.csv.sql('household_power_consumption.txt', "select * from file where Date in ('1/2/2007','2/2/2007')", sep = ';', header = T)
+      house <- read.csv.sql('household_power_consumption.txt', 
+                            "select * from file where Date in ('1/2/2007','2/2/2007')", 
+                            sep = ';', header = T)
       closeAllConnections()
 }
 
@@ -30,13 +32,15 @@ if(!(exists("house"))){
 # to POSIXct format.
 house$DateTime <- as.POSIXct(paste(house$Date, house$Time), format = "%d/%m/%Y %H:%M:%S")
 
-# Opens the png device. Attempting to run dev.copy after 
-# creating the plot in the screen device could distort the result 
-# (especially in plot 3 and 4), so this alternative was selected.
+# Opens the png device. Attempting to run dev.copy after creating the plot 
+# in the screen device could distort the result (especially in plot 3 and 4),
+# so this alternative was selected.
 # This will save the plot to the png file automatically, without it showing
 # up in the screen device. The project page does not ask for the plot to be
 # constructed in the screen device.
-png(filename = "plot4.png", height = 480, width = 480)
+# The background is set to transparent since both the GitHub and project page
+# plots have a transparent background.
+png(filename = "plot4.png", height = 480, width = 480, bg = "transparent")
 
 # Creates the plots.
 par(mfrow = c(2, 2))
