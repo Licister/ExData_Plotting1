@@ -42,14 +42,18 @@ house$DateTime <- as.POSIXct(paste(house$Date, house$Time), format = "%d/%m/%Y %
 # plots have a transparent background.
 png(filename = "plot4.png", height = 480, width = 480, bg = "transparent")
 
-# Creates the plots.
+# Change parameters to have 4 plots.
 par(mfrow = c(2, 2))
+# Plot 1:
 with(house, plot(DateTime, Global_active_power, type = "l", xlab = "", ylab = "Global Active Power"))
+# Plot 2:
 with(house, plot(DateTime, Voltage, type = "l", xlab = "datetime", ylab = "Voltage"))
+# Plot 3:
 with(house, plot(DateTime, Sub_metering_1, type = "l", xlab = "", ylab = "Energy sub metering"))
 with(house, lines(DateTime, Sub_metering_2, col = "red"))
 with(house, lines(DateTime, Sub_metering_3, col = "blue"))
 legend("topright", legend = names(house)[7:9], lty = 1, col = c("black", "red", "blue"), bty="n")
+# Plot 4:
 with(house, plot(DateTime, Global_reactive_power, type = "l", xlab = "datetime"))
 
 # Closes the graphics device.
